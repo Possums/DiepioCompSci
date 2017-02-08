@@ -22,9 +22,10 @@ public abstract class GameObject implements MovingObject {
 	private Image img;
 	
 	
-	public GameObject(Color color) {
+	public GameObject(Color color, double x, double y) {
 		this.color = color;
-		
+		this.x =x;
+		this.y = y;
 		
 	}
 	
