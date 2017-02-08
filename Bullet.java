@@ -7,7 +7,7 @@ public class Bullet extends GameObject{
 	private Color color;
 	
 	private double speed = 10, size=2;
-	
+	//hello
 	
 	public Bullet(Color color){
 		super(color);
