@@ -9,7 +9,7 @@ public class Tank extends GameObject {
 	}
 	
 	public double calcDir(double x, double y){
-		return double direction = Math.atan(x/y);
+		return double direction = Math.atan2(x,y);
 	}
 	
 	@Override
