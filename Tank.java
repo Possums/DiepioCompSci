@@ -4,8 +4,8 @@ import java.awt.Image;
 
 public class Tank extends GameObject {
 	
-	public Tank(Color color){
-		super(color);
+	public Tank(Color color, double x, double y){
+		super(color, x, y);
 	}
 	
 	@Override
