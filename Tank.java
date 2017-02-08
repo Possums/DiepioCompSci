@@ -8,6 +8,10 @@ public class Tank extends GameObject {
 		super(color, x, y);
 	}
 	
+	public double calcDir(double x, double y){
+		return double direction = Math.atan(x/y);
+	}
+	
 	@Override
 	public void checkOffScreen() {
 		// TODO Auto-generated method stub
