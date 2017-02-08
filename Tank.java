@@ -8,7 +8,7 @@ public class Tank extends GameObject {
 		super(color, x, y);
 	}
 	
-	public double calcDir(double x, double y){
+	public double getDirection(double x, double y){
 		return double direction = Math.atan2(x,y);
 	}
 	
@@ -21,6 +21,7 @@ public class Tank extends GameObject {
 	public void draw(Graphics g){
 		//g.drawRect((int)getX(), (int)getY(), (int)getSize(), (int)getSize());
 		g.fill3DRect((int)getX(), (int)getY(), (int)getSize(), (int)getSize(), false);
+		g.fill3DRect((int)getX(), (int)getY()
 	}
 
 }
