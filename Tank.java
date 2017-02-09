@@ -4,12 +4,8 @@ import java.awt.Image;
 
 public class Tank extends GameObject {
 	
-	public Tank(Color color, double x, double y){
-		super(color, x, y);
-	}
-	
-	public double getDirection(double x, double y){
-		return double direction = Math.atan2(x,y);
+	public Tank(Color color, double x, double y, double size){
+		super(color, x, y, size);
 	}
 	
 	@Override
@@ -21,7 +17,6 @@ public class Tank extends GameObject {
 	public void draw(Graphics g){
 		//g.drawRect((int)getX(), (int)getY(), (int)getSize(), (int)getSize());
 		g.fill3DRect((int)getX(), (int)getY(), (int)getSize(), (int)getSize(), false);
-		g.fill3DRect((int)getX(), (int)getY()
 	}
 
 }
