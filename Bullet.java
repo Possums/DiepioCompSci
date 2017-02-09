@@ -8,9 +8,12 @@ public class Bullet extends GameObject{
 	
 	private double speed = 10, size=2;
 	
+	private double damage;
 	
-	public Bullet(Color color, double x, double y, double size){
+	
+	public Bullet(Color color, double x, double y, double size, double damage){
 		super(color, x, y, size);
+		this.damage = damage;
 	}
 
 
