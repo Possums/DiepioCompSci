@@ -16,7 +16,7 @@ public class Tank extends GameObject {
 	
 	public void draw(Graphics g, double angle){
 		//g.drawRect((int)getX(), (int)getY(), (int)getSize(), (int)getSize());
-		g.fill3DRect((int)getX(), (int)getY(), (int)getSize(), (int)getSize(), false);
+		g.fillOval((int)getX(), (int)getY(), (int)getSize(), (int)getSize());
 		g.rotate(angle);
 	}
 
