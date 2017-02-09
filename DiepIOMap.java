@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class DiepIOMap extends GameMap {
+	
+	Tank t = new Tank(Color.BLACK, 1 , 1);
 
 	
 	public DiepIOMap() {
@@ -11,13 +13,13 @@ public class DiepIOMap extends GameMap {
 	}
 	
 	public void draw(Graphics g){
-		Tank t = new Tank(Color.BLACK);
+//		Tank t = new Tank(Color.BLACK, 1 , 1);
 		t.draw(g);
 	}
 	
 	
 	private void addTank() {
-		this.addGameObject(new Tank(Color.BLACK));
+		this.addGameObject(t);
 		
 	}
 
