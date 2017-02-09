@@ -23,6 +23,7 @@ public class MovingObjectsPanel extends JPanel {
 		defaultDim = dim;
 		this.setPreferredSize(defaultDim);
 		makeGameMap();
+		t.start();// start the timer which starts the "ticking"
 	}
 	private void makeGameMap() {
 		gm = new DiepIOMap();
