@@ -19,5 +19,7 @@ public class Tank extends GameObject {
 		g.fillOval((int)getX(), (int)getY(), (int)getSize(), (int)getSize());
 		g.rotate(angle);
 	}
+	public shoot(Color color, double x, double y, double size, double damage){
+		Bullet b = new Bullet(color, x, y, size, damage);
 
 }
