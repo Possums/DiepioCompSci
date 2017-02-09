@@ -1,5 +1,8 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -48,6 +51,29 @@ public class MovingObjectsPanel extends JPanel {
 			}
 		});
 		this.requestFocusInWindow();		
+	}
+	
+	private int mouseX(){
+		PointerInfo a = MouseInfo.getPointerInfo();
+		Point b = a.getLocation();
+		int x = (int) b.getX();
+		return x;
+	}
+	
+	private int mouseY(){
+		PointerInfo a = MouseInfo.getPointerInfo();
+		Point b = a.getLocation();
+		int y = (int) b.getY();
+		return y;
+	}
+	
+	private double calculateAngle(Point a){
+		int objectX = (int) a.getX();
+		int objectY = (int) a.getY();
+		int adjacentSide = mouseX() - objectX;
+		int oppositeSide = mouseY() - objectY;
+		double angle = Math.atan(oppositeSide/adjacentSide);
+		return  angle;
 	}
 	
 	private void shoot() {
