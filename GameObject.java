@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.net.URL;
-
+import java.net.Image;
 import javax.imageio.ImageIO;
 
 
@@ -18,7 +18,7 @@ public abstract class GameObject implements MovingObject {
 		power = 10;// not sure about this...
 	private int level = 1;//
 	private Color color;
-	private Image img;
+	private Image object;
 	
 	
 	public GameObject(Color color, double x, double y, double size) {
@@ -66,10 +66,34 @@ public abstract class GameObject implements MovingObject {
 	private void openImage() {
 			try {
 
-				URL url = getClass().getResource("cards/back.png"+ "");
-				img = ImageIO.read(url);
+				URL url = getClass().getResource("images/tank.png");
+				tank = ImageIO.read(url);
 			} catch (Exception e) {
-				System.out.println("problem opening the card");
+				System.out.println("problem opening the tank");
+				e.printStackTrace();
+			}
+			try {
+
+				URL url = getClass().getResource("images/square.png");
+				square = ImageIO.read(url);
+			} catch (Exception e) {
+				System.out.println("problem opening the square");
+				e.printStackTrace();
+			}
+			try {
+
+				URL url = getClass().getResource("images/triangle.png");
+				triangle = ImageIO.read(url);
+			} catch (Exception e) {
+				System.out.println("problem opening the triangle");
+				e.printStackTrace();
+			}
+			try {
+
+				URL url = getClass().getResource("images/hexagon.png");
+				hexagon = ImageIO.read(url);
+			} catch (Exception e) {
+				System.out.println("problem opening the hexagon");
 				e.printStackTrace();
 			}
 	}
@@ -83,6 +107,10 @@ public abstract class GameObject implements MovingObject {
 	public Rectangle getBoundingRect() {
 		
 		return new Rectangle((int)x,(int)y,(int)size,(int)size);
+	}
+	
+	public void takeDamage(){
+	health -= 
 	}
 
 }
