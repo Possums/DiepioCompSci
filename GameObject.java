@@ -13,7 +13,6 @@ public abstract class GameObject implements MovingObject {
 	private double direction = Math.PI / 2, // degrees or radians
 		x= 0, y= 0, // >= 0
 	
-	
 		size = 10, // 10 might be a good size   
 		health =100, // 0 - 100
 		power = 10;// not sure about this...
@@ -22,10 +21,11 @@ public abstract class GameObject implements MovingObject {
 	private Image img;
 	
 	
-	public GameObject(Color color, double x, double y) {
+	public GameObject(Color color, double x, double y, double size) {
 		this.color = color;
-		this.x =x;
+		this.x = x;
 		this.y = y;
+		this.size = size;
 		
 	}
 	
