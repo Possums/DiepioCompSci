@@ -1,13 +1,13 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 
 public class DiepIOMap extends GameMap {
 	
 	Tank t = new Tank(Color.BLACK, 1 , 1, 10);
-	Image background;
+
 	
-	public DiepIOMap() {
+	public DiepIOMap(Dimension d) {
 		addTank();
 		
 		
@@ -28,13 +28,7 @@ public class DiepIOMap extends GameMap {
 	@Override
 	public void openBackgroundImage() {
 		// TODO Auto-generated method stub
-		try {
-			URL url = getClass().getResource("images/background");
-			background = ImageIO.read(url);
-		} catch (IOException e) {
-			System.out.println("Problem opening the background.png");
-			e.printStackTrace();
-		}
+
 	}
 
 }
