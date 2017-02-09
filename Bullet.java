@@ -26,8 +26,7 @@ public class Bullet extends GameObject{
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		g.fillOval((int)getX(), (int)getY(), (int)getSize(), (int)getSize());		
 	}
 	
 }
