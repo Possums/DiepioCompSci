@@ -3,7 +3,7 @@ import java.awt.Graphics;
 
 public class DiepIOMap extends GameMap {
 	
-	Tank t = new Tank(Color.BLACK, 1 , 1);
+	Tank t = new Tank(Color.BLACK, 1 , 1, 10);
 
 	
 	public DiepIOMap() {
