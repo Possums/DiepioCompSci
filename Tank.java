@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class Tank extends GameObject {
-	
+	Image tank;
 	public Tank(Color color, double x, double y, double size){
 		super(color, x, y, size);
 	}
