@@ -22,7 +22,9 @@ public class Bullet extends GameObject{
 		// TODO Auto-generated method stub
 		
 	}
-
+	public double getDamage(){
+		return damage;
+	}
 
 	@Override
 	public void draw(Graphics g) {
