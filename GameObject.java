@@ -109,8 +109,7 @@ public abstract class GameObject implements MovingObject {
 		return new Rectangle((int)x,(int)y,(int)size,(int)size);
 	}
 	
-	public void takeDamage(){
-	health -= 
+	public void takeDamage(Bullet b){
+	health -= b.getDamage();
 	}
-
 }
