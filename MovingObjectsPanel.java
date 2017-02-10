@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
@@ -60,11 +61,12 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				//gm.shoot();
+				gm.shoot();
 			}
 		});
 		this.requestFocusInWindow();		
 	}
+
 
 	private int mouseX(){
 		PointerInfo a = MouseInfo.getPointerInfo();
@@ -87,10 +89,6 @@ public class MovingObjectsPanel extends JPanel {
 		int oppositeSide = mouseY() - objectY;
 		double angle = Math.atan(oppositeSide/adjacentSide);
 		return  angle;
-	}
-
-	private void shoot() {
-
 	}
 
 
