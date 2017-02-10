@@ -49,9 +49,7 @@ public abstract class GameObject implements MovingObject {
 		return size;
 	}
 	
-	public double x(){
-		return x;
-	}
+
 
 	@Override
 	public void move() {
