@@ -4,6 +4,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
@@ -12,10 +13,11 @@ import javax.swing.Timer;
 
 
 public class MovingObjectsPanel extends JPanel {
-	
+
 	final Dimension defaultDim;// = new Dimension(800,600);
 	GameMap gm;
-	
+	private Timer t;
+
 	public MovingObjectsPanel() {
 		this( new Dimension(800,600));
 	}
@@ -26,11 +28,21 @@ public class MovingObjectsPanel extends JPanel {
 		t.start();// start the timer which starts the "ticking"
 	}
 	private void makeGameMap() {
-		gm = new DiepIOMap();
+		gm = new DiepIOMap(this.defaultDim);// let the map know what dim is
 		
-		//t = new Timer(0, ActionListener e);
+		t = new Timer(10, new ActionListener() {// fires off every 10 ms
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				gm.tick();// I tell the GameMap to tick... do what
+				// you do every time the clock goes off.
+				//animation 
+				repaint();// naturally, we want to see the new view
+			}
+		}
+
+				);// this semicolon is here because it is the end of the new Timer construction...
 	}
-	
+
 	private void setUpKeyMappings() {
 		// maps keys with actions...
 		//  The code below maps a KeyStroke to an action to be performed
@@ -43,7 +55,7 @@ public class MovingObjectsPanel extends JPanel {
 		// case, the action triggers a shoot command invoked on my GameMap.  In general, whatever 
 		// goes in the actionPerformed method will be executed when a shoot command
 		// is sent...
-			
+
 		this.getActionMap().put("shoot",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -53,21 +65,21 @@ public class MovingObjectsPanel extends JPanel {
 		});
 		this.requestFocusInWindow();		
 	}
-	
+
 	private int mouseX(){
 		PointerInfo a = MouseInfo.getPointerInfo();
 		Point b = a.getLocation();
 		int x = (int) b.getX();
 		return x;
 	}
-	
+
 	private int mouseY(){
 		PointerInfo a = MouseInfo.getPointerInfo();
 		Point b = a.getLocation();
 		int y = (int) b.getY();
 		return y;
 	}
-	
+
 	private double calculateAngle(Point a){
 		int objectX = (int) a.getX();
 		int objectY = (int) a.getY();
@@ -76,25 +88,12 @@ public class MovingObjectsPanel extends JPanel {
 		double angle = Math.atan(oppositeSide/adjacentSide);
 		return  angle;
 	}
-	
+
 	private void shoot() {
-		
+
 	}
-	
-	private void makeGameMap() {
-	gm = new DiepIOMap(this.defaultDim);// let the map know what dim is
-	t = new Timer(10, new ActionListener() {// fires off every 10 ms
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			gm.tick();// I tell the GameMap to tick... do what
-				// you do every time the clock goes off.
-			repaint();// naturally, we want to see the new view
-		}
-			
-	});// this semicolon is here because it is the end of the new Timer construction...
-}
-	
-	
+
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
