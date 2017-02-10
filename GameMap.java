@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -24,5 +25,9 @@ public abstract class GameMap {
 	public void tick() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void shoot() {
+		Bullet b = new Bullet(Color.BLACK, x, y, size, damage);
 	}
 }
