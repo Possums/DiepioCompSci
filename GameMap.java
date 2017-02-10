@@ -20,4 +20,9 @@ public abstract class GameMap {
 	public abstract void openBackgroundImage(); 
 	
 	public abstract void draw(Graphics g);
+
+	public void tick() {
+		// TODO Auto-generated method stub
+		
+	}
 }
