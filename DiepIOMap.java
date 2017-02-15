@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 
@@ -21,6 +22,8 @@ public class DiepIOMap extends GameMap {
 
 	public void draw(Graphics g){
 		//		Tank t = new Tank(Color.BLACK, 1 , 1);
+		Dimension a = Toolkit.getDefaultToolkit().getScreenSize();
+		g.drawImage(background, 0, 0, a.width, a.height, null);
 		t.draw(g);
 	}
 
