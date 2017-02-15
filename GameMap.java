@@ -28,6 +28,6 @@ public abstract class GameMap {
 	}
 	
 	public void shoot() {
-		Bullet b = new Bullet(Color.BLACK, x, y, size, damage);
+		//Bullet b = new Bullet(Color.BLACK, x, y, size, damage);
 	}
 }
