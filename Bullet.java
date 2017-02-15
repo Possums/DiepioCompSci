@@ -8,13 +8,13 @@ public class Bullet extends GameObject{
 	
 	private double speed = 10, size=2;
 	
-	private double damage;
+	private double damage = 10;
 	
 	
-	public Bullet(Color color, double x, double y, double size, double damage){
+	public Bullet(Color color, double x, double y, double size){
 		super(color, x, y, size);
-		this.damage = damage;
 	}
+	
 
 
 	@Override
