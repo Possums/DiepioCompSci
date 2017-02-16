@@ -31,6 +31,15 @@ public abstract class GameObject implements MovingObject {
 		// assign damage
 	}
 	
+	public void setDir(double d){
+		direction = d;
+	}
+	
+	public double getDirection(){
+		return direction;
+	}
+
+	
 	public double getX(){
 		return x;
 	}
