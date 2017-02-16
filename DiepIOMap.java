@@ -10,19 +10,21 @@ import javax.imageio.ImageIO;
 import java.net.URL;
 
 public class DiepIOMap extends GameMap {
-
-	public Tank t = new Tank(Color.BLACK, 1 , 1, 10);
+	
+	Dimension a = Toolkit.getDefaultToolkit().getScreenSize();
+	Tank t = new Tank(Color.BLACK, a.width/2 , a.height/2, 200);
 	Image background;
 
 	public DiepIOMap(Dimension d) {
 		addTank();
+		
 
 
 	}
 
 	public void draw(Graphics g){
 		//		Tank t = new Tank(Color.BLACK, 1 , 1);
-		Dimension a = Toolkit.getDefaultToolkit().getScreenSize();
+		
 		g.drawImage(background, 0, 0, a.width, a.height, null);
 		t.draw(g);
 	}
@@ -32,12 +34,11 @@ public class DiepIOMap extends GameMap {
 		this.addGameObject(t);
 
 	}
-	
+
 	public void shoot(){
-		this.addGameObject(t.shoot());
+		//this.addGameObject(t.shoot());
 	}
-
-
+	
 	@Override
 	public void openBackgroundImage() {
 		// TODO Auto-generated method stub
