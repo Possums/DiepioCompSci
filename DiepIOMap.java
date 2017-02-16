@@ -11,7 +11,7 @@ import java.net.URL;
 
 public class DiepIOMap extends GameMap {
 
-	Tank t = new Tank(Color.BLACK, 1 , 1, 10);
+	public Tank t = new Tank(Color.BLACK, 1 , 1, 10);
 	Image background;
 
 	public DiepIOMap(Dimension d) {
