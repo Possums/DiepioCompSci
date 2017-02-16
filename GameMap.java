@@ -23,11 +23,12 @@ public abstract class GameMap {
 	public abstract void draw(Graphics g);
 
 	public void tick() {
-		// TODO Auto-generated method stub
+		for(MovingObject m: movers){
+			m.move();
+		}
 		
 	}
 	
 	public void shoot() {
-		Bullet b = new Bullet(Color.BLACK, 10, 10, 2);
 	}
 }
