@@ -32,7 +32,7 @@ public abstract class GameObject implements MovingObject {
 	}
 	
 	public void setDir(double d){
-		direction = d;
+		setDirection(d);
 	}
 	
 	public double getDirection(){
@@ -64,9 +64,11 @@ public abstract class GameObject implements MovingObject {
 
 	@Override
 	public void move() {
-		x+= speed*Math.cos(direction);
-		y+= speed*Math.sin(direction);
-		
+		x+= getSpeed()*Math.cos(getDirection());
+		y+= getSpeed()*Math.sin(getDirection());
+		if(this instanceof Bullet){
+			System.out.println(this);
+		}
 		checkOffScreen();
 		// maybe "push" back onto the screen change direction if
 		// this object goes off the screen
@@ -135,4 +137,21 @@ public abstract class GameObject implements MovingObject {
 		this.pointingDirection = pointingDirection;
 	}
 
+	public void setDirection(double direction) {
+		this.direction = direction;
+	}
+
+	public double getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+	public String toString(){
+		String s = "";
+		s+=this.getClass();
+		s+=this.getX()+" , "+this.getY()+" speed: "+this.getSpeed()+" dir: "+this.getDirection();
+		return s;
+	}
 }

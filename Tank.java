@@ -54,6 +54,7 @@ public class Tank extends GameObject {
 	// 	}
 	
 	public GameObject shoot() {
+		System.out.println("sdfgh");;
 		Bullet b = new Bullet(Color.BLACK, this.getX(), this.getY(), 2, this.getDirection());
 		return b;
 	}

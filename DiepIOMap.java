@@ -36,7 +36,7 @@ public class DiepIOMap extends GameMap {
 	}
 
 	public void shoot(){
-		//this.addGameObject(t.shoot());
+		this.addGameObject(t.shoot());
 	}
 	
 	@Override

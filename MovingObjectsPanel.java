@@ -31,7 +31,9 @@ public class MovingObjectsPanel extends JPanel {
 	private void makeGameMap() {
 		gm = new DiepIOMap(this.defaultDim);// let the map know what dim is
 		
-		t = new Timer(10, new ActionListener() {// fires off every 10 ms
+		setUpKeyMappings();
+		
+		t = new Timer(100, new ActionListener() {// fires off every 10 ms
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				gm.tick();// I tell the GameMap to tick... do what
@@ -50,6 +52,7 @@ public class MovingObjectsPanel extends JPanel {
 		// In this case I mapped the space bar key to the action named "shoot"
 		// Whenever someone hits the Space Bar the action shoot is sent out
 
+		this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"shoot");
 		this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"shoot");
 
 		//  This associates the command shoot with some action.  In this 
