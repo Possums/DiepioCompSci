@@ -2,21 +2,95 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
-
+import java.awt.geom.Area;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
 import java.net.URL;
 
 public class DiepIOMap extends GameMap {
-	
+
 	Dimension a = Toolkit.getDefaultToolkit().getScreenSize();
 	Tank t = new Tank(Color.BLACK, a.width/2 , a.height/2, 200);
+	TankBot TankBot = new TankBot(Color.BLACK, 100,100, 200);
 	Image background;
+	//Rectangle rect = new Rectangle((int)t.getX()+130, (int)t.getY()-33, 100, 65);
 
 	public DiepIOMap(Dimension d) {
 		addTank();
+
+
+
+	}
+
+	public void tick(){
+
+		super.tick();
+		double angle = calculateAngle();
+		
+		for (int i =0; i<movers.size(); i++){
+			
+			((GameObject)movers.get(i)).setBoundingRect((int)((GameObject)movers.get(i)).getX(), (int)((GameObject)movers.get(i)).getY(), 20, 20);
+			if (movers.get(i) instanceof Tank){
+				t.setDir(angle);
+				t.setBoundingRect((int)t.getX()+130, (int)t.getY()-33, 100, 65);
+				if (t.getHealth() ==0 ){
+					JOptionPane.showInternalMessageDialog(null, "Game Over");
+				}
+			}
+			if (movers.get(i) instanceof TankBot){
+				TankBot.setSpeed(3);
+				TankBot.setMovingDirection(botAngle());
+				TankBot.setDirection(botAngle());
+				TankBot.move();
+				TankBot.setBoundingRect((int)TankBot.getX()+130, (int)TankBot.getY()-33, 100, 65);
+				if (TankBot.getHealth() ==0){
+					movers.remove(i);
+					//JOptionPane.showInternalMessageDialog(null, "You Win!");
+				}
+			}
+		}
+		
+		
+		
+//		System.out.println("bot angle= " + Math.toDegrees(botAngle()));
+		
+
+//		for (int i =0; i<movers.size(); i++){
+//			System.out.println("index = " + i + "  " + ((GameObject) movers.get(i)).getBoundingRect());
+//			
+//		}
+		
+		
+		
+		for (int i = 0; i < movers.size(); i++) {
+			for (int j = i+1; j < movers.size(); j++) {
+				// compare list.get(i) and list.get(j)
+				//System.out.println("inner loop");
+
+				
+					if (movers.get(i).getBoundingRect().intersects(movers.get(j).getBoundingRect()) && 
+							!((GameObject) movers.get(i)).getName().equals(((GameObject)movers.get(j)).getName())){
+						System.out.println("collisions");
+						
+						((GameObject) movers.get(i)).takeDamage((GameObject) movers.get(j));
+						((GameObject) movers.get(j)).takeDamage((GameObject) movers.get(i));
+						if (movers.get(i) instanceof Bullet){
+							movers.remove(i);
+						}
+						if (movers.get(j) instanceof Bullet){
+							movers.remove(j);
+						}
+					}
+			}
+		}
 		
 
 
@@ -24,21 +98,52 @@ public class DiepIOMap extends GameMap {
 
 	public void draw(Graphics g){
 		//		Tank t = new Tank(Color.BLACK, 1 , 1);
-		
+
 		g.drawImage(background, 0, 0, a.width, a.height, null);
-		t.draw(g);
+//		t.draw(g);
+//		TankBot.draw(g);
+		for (int i =0; i<movers.size(); i++){
+			movers.get(i).draw(g);
+		}
 	}
 
+	public double getBotAngle(){
+		return this.botAngle();
+	}
 
 	private void addTank() {
 		this.addGameObject(t);
-
+		this.addGameObject(TankBot);
 	}
 
 	public void shoot(){
 		this.addGameObject(t.shoot());
 	}
-	
+
+	public void moveDown(){
+		//t.setY((int)(t.getY()-10));
+		t.setMovingDirection((Math.PI/2));
+		t.setSpeed(15);
+	}
+
+	public void moveUp(){
+		//t.setY((int)(t.getY()+10));
+		t.setMovingDirection((3*Math.PI/2));
+		t.setSpeed(15);
+	}
+
+	public void moveRight(){
+		//t.setX((int)(t.getX()+10));
+		t.setMovingDirection(0);
+		t.setSpeed(15);
+	}
+
+	public void moveLeft(){
+		//t.setX((int)(t.getX()-10));
+		t.setMovingDirection(Math.PI);
+		t.setSpeed(15);
+	}
+
 	@Override
 	public void openBackgroundImage() {
 		// TODO Auto-generated method stub
@@ -50,6 +155,42 @@ public class DiepIOMap extends GameMap {
 			e.printStackTrace();
 		}
 
+	}
+
+	private int mouseX(){
+		PointerInfo a = MouseInfo.getPointerInfo();
+		Point b = a.getLocation();
+		int x = (int) b.getX();
+		return x;
+	}
+
+	private int mouseY(){
+		PointerInfo a = MouseInfo.getPointerInfo();
+		Point b = a.getLocation();
+		int y = (int) b.getY();
+		return y;
+	}
+
+	private double calculateAngle(){
+		Point imageCenter = new Point((int)t.getX() + 89, (int)t.getY() -50);
+		double adjacentSide = mouseX() - imageCenter.x;
+		double oppositeSide = mouseY() - imageCenter.y;
+		double angle = Math.atan2(oppositeSide,adjacentSide);
+		System.out.println(t.getX() + ", " +t.getY());
+		//System.out.println("Height equals " + tank.getHeight(null) + "Width equals " + tank.getWidth(null));
+		return  angle;
+	}
+
+	private double botAngle(){
+		double adjacentSide = t.getX() - TankBot.getX();
+		double oppositeSide = t.getY() - TankBot.getY();
+		double angle = Math.atan2(oppositeSide,  adjacentSide);
+		return angle;
+	}
+
+	public void stopTank() {
+		// TODO Auto-generated method stub
+		t.setSpeed(0);
 	}
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class GameMap {
 
-	private List<MovingObject> movers;
+	protected List<MovingObject> movers;
 	Image backgroundImage;
 	
 	public GameMap() {
@@ -26,6 +26,8 @@ public abstract class GameMap {
 		for(MovingObject m: movers){
 			m.move();
 		}
+		
+		
 		
 	}
 	
