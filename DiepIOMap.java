@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MouseInfo;
@@ -22,6 +24,8 @@ public class DiepIOMap extends GameMap {
 	TankBot TankBot = new TankBot(Color.BLACK, 100,100, 200);
 	Image background;
 	//Rectangle rect = new Rectangle((int)t.getX()+130, (int)t.getY()-33, 100, 65);
+	int shouldShoot=0;
+	boolean isBotDead = false;
 
 	public DiepIOMap(Dimension d) {
 		addTank();
@@ -31,18 +35,26 @@ public class DiepIOMap extends GameMap {
 	}
 
 	public void tick(){
-
+		if (isBotDead == true){
+			
+			//JOptionPane.showMessageDialog(null, "YOU WIN!");
+		}
 		super.tick();
 		double angle = calculateAngle();
-		
+
+		if (shouldShoot % 8 == 0){
+			botShoot();
+		}
+		shouldShoot++;
+
 		for (int i =0; i<movers.size(); i++){
-			
+
 			((GameObject)movers.get(i)).setBoundingRect((int)((GameObject)movers.get(i)).getX(), (int)((GameObject)movers.get(i)).getY(), 20, 20);
 			if (movers.get(i) instanceof Tank){
 				t.setDir(angle);
 				t.setBoundingRect((int)t.getX()+130, (int)t.getY()-33, 100, 65);
 				if (t.getHealth() ==0 ){
-					JOptionPane.showInternalMessageDialog(null, "Game Over");
+					JOptionPane.showMessageDialog(null, "Game Over");
 				}
 			}
 			if (movers.get(i) instanceof TankBot){
@@ -51,59 +63,85 @@ public class DiepIOMap extends GameMap {
 				TankBot.setDirection(botAngle());
 				TankBot.move();
 				TankBot.setBoundingRect((int)TankBot.getX()+130, (int)TankBot.getY()-33, 100, 65);
+
 				if (TankBot.getHealth() ==0){
 					movers.remove(i);
-					//JOptionPane.showInternalMessageDialog(null, "You Win!");
+					isBotDead = true;
+					JOptionPane.showMessageDialog(null, "You Win!");
 				}
 			}
 		}
-		
-		
-		
-//		System.out.println("bot angle= " + Math.toDegrees(botAngle()));
-		
 
-//		for (int i =0; i<movers.size(); i++){
-//			System.out.println("index = " + i + "  " + ((GameObject) movers.get(i)).getBoundingRect());
-//			
-//		}
-		
-		
-		
+
+
+		//		System.out.println("bot angle= " + Math.toDegrees(botAngle()));
+
+
+		//		for (int i =0; i<movers.size(); i++){
+		//			System.out.println("index = " + i + "  " + ((GameObject) movers.get(i)).getBoundingRect());
+		//			
+		//		}
+
+
+
 		for (int i = 0; i < movers.size(); i++) {
 			for (int j = i+1; j < movers.size(); j++) {
 				// compare list.get(i) and list.get(j)
 				//System.out.println("inner loop");
 
-				
-					if (movers.get(i).getBoundingRect().intersects(movers.get(j).getBoundingRect()) && 
-							!((GameObject) movers.get(i)).getName().equals(((GameObject)movers.get(j)).getName())){
-						System.out.println("collisions");
-						
-						((GameObject) movers.get(i)).takeDamage((GameObject) movers.get(j));
-						((GameObject) movers.get(j)).takeDamage((GameObject) movers.get(i));
+
+				if (movers.get(i).getBoundingRect().intersects(movers.get(j).getBoundingRect()) && 
+						!((GameObject) movers.get(i)).getName().equals(((GameObject)movers.get(j)).getName())){
+					System.out.println("collisions");
+
+					((GameObject) movers.get(i)).takeDamage((GameObject) movers.get(j));
+					((GameObject) movers.get(j)).takeDamage((GameObject) movers.get(i));
+					try {
 						if (movers.get(i) instanceof Bullet){
 							movers.remove(i);
 						}
+					}
+					catch (Exception e){
+						System.out.println("error removing bullet");
+					}
+					try {
 						if (movers.get(j) instanceof Bullet){
 							movers.remove(j);
 						}
 					}
+					catch (Exception e){
+						System.out.println("error removing bullet");
+					}
+				}
 			}
 		}
-		
+
 
 
 	}
 
+	public boolean isBotDead(){
+		return isBotDead;
+	}
+	
 	public void draw(Graphics g){
 		//		Tank t = new Tank(Color.BLACK, 1 , 1);
 
 		g.drawImage(background, 0, 0, a.width, a.height, null);
-//		t.draw(g);
-//		TankBot.draw(g);
+		//		t.draw(g);
+		//		TankBot.draw(g);
 		for (int i =0; i<movers.size(); i++){
 			movers.get(i).draw(g);
+		}
+		if (isBotDead){
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 300)); 
+			FontMetrics metrics = g.getFontMetrics();
+			    // Determine the X coordinate for the text
+			    int x = (3840 - metrics.stringWidth("You Win")) / 2;
+			    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+			    int y = ((2160 - metrics.getHeight()) / 2) + metrics.getAscent();
+			 
+			g.drawString("You Win", x, y);
 		}
 	}
 
@@ -118,6 +156,10 @@ public class DiepIOMap extends GameMap {
 
 	public void shoot(){
 		this.addGameObject(t.shoot());
+	}
+
+	public void botShoot(){
+		this.addGameObject(TankBot.shoot(getBotAngle()));
 	}
 
 	public void moveDown(){

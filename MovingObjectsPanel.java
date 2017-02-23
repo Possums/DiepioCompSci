@@ -30,16 +30,20 @@ public class MovingObjectsPanel extends JPanel {
 	}
 	private void makeGameMap() {
 		gm = new DiepIOMap(this.defaultDim);// let the map know what dim is
-		
+
 		setUpKeyMappings();
-		
+
 		t = new Timer(100, new ActionListener() {// fires off every 10 ms
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				gm.tick();// I tell the GameMap to tick... do what
-				// you do every time the clock goes off.
-				//animation 
-				repaint();// naturally, we want to see the new view
+				
+					gm.tick();// I tell the GameMap to tick... do what
+					// you do every time the clock goes off.
+					//animation 
+					repaint();// naturally, we want to see the new view
+				if (gm.isBotDead){
+					t.stop();
+				}
 			}
 		}
 
@@ -61,7 +65,7 @@ public class MovingObjectsPanel extends JPanel {
 		this.getInputMap().put(KeyStroke.getKeyStroke("released S"), "stop");
 		this.getInputMap().put(KeyStroke.getKeyStroke("released D"), "stop");
 		this.getInputMap().put(KeyStroke.getKeyStroke("released A"), "stop");
-		
+
 		//  This associates the command shoot with some action.  In this 
 		// case, the action triggers a shoot command invoked on my GameMap.  In general, whatever 
 		// goes in the actionPerformed method will be executed when a shoot command
@@ -70,18 +74,18 @@ public class MovingObjectsPanel extends JPanel {
 		this.getActionMap().put("shoot",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				gm.shoot();
 			}
 		});
 		this.getActionMap().put("stop",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				gm.stopTank();
 			}
 		});
-		
+
 		this.getActionMap().put("moveUp", new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -102,14 +106,14 @@ public class MovingObjectsPanel extends JPanel {
 				gm.moveRight();
 			}
 		});
-		
+
 		this.getActionMap().put("moveLeft", new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e){
 				gm.moveLeft();
 			}
 		});
-		
+
 		this.requestFocusInWindow();		
 	}
 

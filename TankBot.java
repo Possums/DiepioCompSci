@@ -46,7 +46,7 @@ public class TankBot extends GameObject {
 		g2d.translate(-cx, -cy);
 		g2d.drawImage(tank, 0, 0, null);
 		g2d.setTransform(oldAT);
-//		g.drawRect((int)this.getX()+130, (int)this.getY()-33, 100, 65);
+		//		g.drawRect((int)this.getX()+130, (int)this.getY()-33, 100, 65);
 		g2d.drawRect((int)this.getX()+130, (int)this.getY() + 50, 100, 20);
 		g2d.setColor(Color.RED);
 		g2d.fillRect((int)this.getX()+130, (int)this.getY() + 50, this.getHealth(), 20);
@@ -57,11 +57,14 @@ public class TankBot extends GameObject {
 	// 	public shoot(Color color, double x, double y, double size, double damage){
 	// 		Bullet b = new Bullet(color, x, y, size, damage);
 	// 	}
-	
-	public GameObject shoot() {
-		
-		Bullet b = new Bullet(Color.BLACK, this.getX() + 160, this.getY(), 30, this.getDirection());
+
+	public GameObject shoot(double botAngle) {
+
+		Bullet b = new Bullet(Color.BLACK, this.getX() + 160, this.getY() + 10, 30, botAngle);
+		System.out.println("tank bot shoot");
+		b.setName("TankBot");
 		return b;
+
 	}
 
 	private void openImage() {
