@@ -26,6 +26,7 @@ public class DiepIOMap extends GameMap {
 	//Rectangle rect = new Rectangle((int)t.getX()+130, (int)t.getY()-33, 100, 65);
 	int shouldShoot=0;
 	boolean isBotDead = false;
+	boolean gameOver;
 
 	public DiepIOMap(Dimension d) {
 		addTank();
@@ -35,10 +36,7 @@ public class DiepIOMap extends GameMap {
 	}
 
 	public void tick(){
-		if (isBotDead == true){
-			
-			//JOptionPane.showMessageDialog(null, "YOU WIN!");
-		}
+
 		super.tick();
 		double angle = calculateAngle();
 
@@ -54,6 +52,7 @@ public class DiepIOMap extends GameMap {
 				t.setDir(angle);
 				t.setBoundingRect((int)t.getX()+130, (int)t.getY()-33, 100, 65);
 				if (t.getHealth() ==0 ){
+					gameOver = true;
 					JOptionPane.showMessageDialog(null, "Game Over");
 				}
 			}
@@ -143,6 +142,18 @@ public class DiepIOMap extends GameMap {
 			 
 			g.drawString("You Win", x, y);
 		}
+		
+		if (gameOver){
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 300)); 
+			FontMetrics metrics = g.getFontMetrics();
+			    // Determine the X coordinate for the text
+			    int x = (3840 - metrics.stringWidth("You Lose")) / 2;
+			    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+			    int y = ((2160 - metrics.getHeight()) / 2) + metrics.getAscent();
+			 
+			g.drawString("You Lose", x, y);
+		}
+		
 	}
 
 	public double getBotAngle(){

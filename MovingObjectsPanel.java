@@ -41,7 +41,7 @@ public class MovingObjectsPanel extends JPanel {
 					// you do every time the clock goes off.
 					//animation 
 					repaint();// naturally, we want to see the new view
-				if (gm.isBotDead){
+				if (gm.isBotDead || gm.gameOver){
 					t.stop();
 				}
 			}
