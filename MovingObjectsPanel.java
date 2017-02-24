@@ -41,7 +41,8 @@ public class MovingObjectsPanel extends JPanel {
 					// you do every time the clock goes off.
 					//animation 
 					repaint();// naturally, we want to see the new view
-				if (gm.isBotDead || gm.gameOver){
+				if ((gm.TankBot.getHealth() <=0 && gm.TankBot2.getHealth()<=0) || gm.gameOver){
+					gm.tick();
 					t.stop();
 				}
 			}

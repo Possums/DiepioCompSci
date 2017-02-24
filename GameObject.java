@@ -100,7 +100,7 @@ public abstract class GameObject implements MovingObject {
 		x+= getSpeed()*Math.cos(getMovingDirection());
 		y+= getSpeed()*Math.sin(getMovingDirection());
 		if(this instanceof Bullet){
-			System.out.println(this);
+			//System.out.println(this);
 		}
 		checkOffScreen();
 		// maybe "push" back onto the screen change direction if

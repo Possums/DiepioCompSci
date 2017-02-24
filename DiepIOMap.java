@@ -16,16 +16,20 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiepIOMap extends GameMap {
 
 	Dimension a = Toolkit.getDefaultToolkit().getScreenSize();
 	Tank t = new Tank(Color.BLACK, a.width/2 , a.height/2, 200);
 	TankBot TankBot = new TankBot(Color.BLACK, 100,100, 200);
+	TankBot TankBot2 = new TankBot(Color.BLACK, 100, 2000, 200);
 	Image background;
 	//Rectangle rect = new Rectangle((int)t.getX()+130, (int)t.getY()-33, 100, 65);
-	int shouldShoot=0;
-	boolean isBotDead = false;
+	int shouldShoot = 0;
+	private List<TankBot> bots = new ArrayList<TankBot>();
+	boolean isBotDead, isBotDead2 = false;
 	boolean gameOver;
 
 	public DiepIOMap(Dimension d) {
@@ -36,12 +40,18 @@ public class DiepIOMap extends GameMap {
 	}
 
 	public void tick(){
-
+		//system.out.println("BOT 1 health = " + TankBot.getHealth());
+		//System.out.println("BOT 2 health = " + TankBot2.getHealth());
 		super.tick();
 		double angle = calculateAngle();
 
-		if (shouldShoot % 8 == 0){
-			botShoot();
+		if (shouldShoot % 3 == 0){
+			if (TankBot.getHealth()>=0){
+				botShoot();
+			}
+			if (TankBot2.getHealth()>=0){
+				botShoot2();
+			}
 		}
 		shouldShoot++;
 
@@ -53,22 +63,43 @@ public class DiepIOMap extends GameMap {
 				t.setBoundingRect((int)t.getX()+130, (int)t.getY()-33, 100, 65);
 				if (t.getHealth() ==0 ){
 					gameOver = true;
-					JOptionPane.showMessageDialog(null, "Game Over");
+					//JOptionPane.showMessageDialog(null, "Game Over");
 				}
 			}
-			if (movers.get(i) instanceof TankBot){
+
+
+
+
+			if (movers.get(i).equals(TankBot)){
+				System.out.println("tank bot");
 				TankBot.setSpeed(3);
 				TankBot.setMovingDirection(botAngle());
 				TankBot.setDirection(botAngle());
 				TankBot.move();
 				TankBot.setBoundingRect((int)TankBot.getX()+130, (int)TankBot.getY()-33, 100, 65);
-
-				if (TankBot.getHealth() ==0){
+				if (TankBot.getHealth() <=0){
 					movers.remove(i);
 					isBotDead = true;
-					JOptionPane.showMessageDialog(null, "You Win!");
+
 				}
 			}
+			if (movers.get(i).equals(TankBot2)){
+				System.out.println("tankbot2");
+				TankBot2.setSpeed(3);
+				TankBot2.setMovingDirection(botAngle2());
+				TankBot2.setDirection(botAngle2());
+				TankBot2.move();
+				TankBot2.setBoundingRect((int)TankBot2.getX()+130, (int)TankBot2.getY()-33, 100, 65);
+				if (TankBot2.getHealth() <=0){
+					movers.remove(i);
+					isBotDead2 = true;
+				}
+			}
+
+			if (TankBot.getHealth() <=0 && TankBot2.getHealth() <= 0){
+				//JOptionPane.showMessageDialog(null, "You Win");
+			}
+
 		}
 
 
@@ -91,7 +122,7 @@ public class DiepIOMap extends GameMap {
 
 				if (movers.get(i).getBoundingRect().intersects(movers.get(j).getBoundingRect()) && 
 						!((GameObject) movers.get(i)).getName().equals(((GameObject)movers.get(j)).getName())){
-					System.out.println("collisions");
+					System.out.println("collision between " + movers.get(i) + "and " + movers.get(j));
 
 					((GameObject) movers.get(i)).takeDamage((GameObject) movers.get(j));
 					((GameObject) movers.get(j)).takeDamage((GameObject) movers.get(i));
@@ -122,7 +153,7 @@ public class DiepIOMap extends GameMap {
 	public boolean isBotDead(){
 		return isBotDead;
 	}
-	
+
 	public void draw(Graphics g){
 		//		Tank t = new Tank(Color.BLACK, 1 , 1);
 
@@ -132,28 +163,28 @@ public class DiepIOMap extends GameMap {
 		for (int i =0; i<movers.size(); i++){
 			movers.get(i).draw(g);
 		}
-		if (isBotDead){
+		if (TankBot.getHealth()<=0 && TankBot2.getHealth()<=0){
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 300)); 
 			FontMetrics metrics = g.getFontMetrics();
-			    // Determine the X coordinate for the text
-			    int x = (3840 - metrics.stringWidth("You Win")) / 2;
-			    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-			    int y = ((2160 - metrics.getHeight()) / 2) + metrics.getAscent();
-			 
+			// Determine the X coordinate for the text
+			int x = (3840 - metrics.stringWidth("You Win")) / 2;
+			// Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+			int y = ((2160 - metrics.getHeight()) / 2) + metrics.getAscent();
+
 			g.drawString("You Win", x, y);
 		}
-		
+
 		if (gameOver){
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 300)); 
 			FontMetrics metrics = g.getFontMetrics();
-			    // Determine the X coordinate for the text
-			    int x = (3840 - metrics.stringWidth("You Lose")) / 2;
-			    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-			    int y = ((2160 - metrics.getHeight()) / 2) + metrics.getAscent();
-			 
+			// Determine the X coordinate for the text
+			int x = (3840 - metrics.stringWidth("You Lose")) / 2;
+			// Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
+			int y = ((2160 - metrics.getHeight()) / 2) + metrics.getAscent();
+
 			g.drawString("You Lose", x, y);
 		}
-		
+
 	}
 
 	public double getBotAngle(){
@@ -163,6 +194,7 @@ public class DiepIOMap extends GameMap {
 	private void addTank() {
 		this.addGameObject(t);
 		this.addGameObject(TankBot);
+		this.addGameObject(TankBot2);
 	}
 
 	public void shoot(){
@@ -171,6 +203,10 @@ public class DiepIOMap extends GameMap {
 
 	public void botShoot(){
 		this.addGameObject(TankBot.shoot(getBotAngle()));
+	}
+
+	public void botShoot2(){
+		this.addGameObject(TankBot2.shoot(botAngle2()));
 	}
 
 	public void moveDown(){
@@ -237,6 +273,13 @@ public class DiepIOMap extends GameMap {
 	private double botAngle(){
 		double adjacentSide = t.getX() - TankBot.getX();
 		double oppositeSide = t.getY() - TankBot.getY();
+		double angle = Math.atan2(oppositeSide,  adjacentSide);
+		return angle;
+	}
+
+	private double botAngle2(){
+		double adjacentSide = t.getX() - TankBot2.getX();
+		double oppositeSide = t.getY() - TankBot2.getY();
 		double angle = Math.atan2(oppositeSide,  adjacentSide);
 		return angle;
 	}

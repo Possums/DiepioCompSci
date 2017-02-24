@@ -18,12 +18,14 @@ public class Tank extends GameObject {
 	Dimension a = Toolkit.getDefaultToolkit().getScreenSize();
 	Point center = new Point(a.width/2, a.height/2);
 	Point imageCenter = new Point((int)this.getX(), (int)this.getY());
+	private double maxHealth = 300;
 	Rectangle rect = new Rectangle(10, 65);
 	
 			
 	public Tank(Color color, double x, double y, double size){
 
 		super(color, x, y, size);
+		this.setHealth(300);
 		this.setName("t");
 		openImage();
 	}
@@ -50,10 +52,14 @@ public class Tank extends GameObject {
 		g2d.drawImage(tank, 0, 0, null);
 		g2d.setTransform(oldAT);
 		//g.drawOval((int)this.getX()+150, (int)this.getY()-18, 50, 50);
-//		g2d.drawRect((int)this.getX()+130, (int)this.getY()-33, 100, 65);
+		//g2d.drawRect((int)this.getX()+130, (int)this.getY()-33, 100, 65);
 		g2d.drawRect((int)this.getX()+130, (int)this.getY() + 50, 100, 20);
 		g2d.setColor(Color.RED);
-		g2d.fillRect((int)this.getX()+130, (int)this.getY() + 50, this.getHealth(), 20);
+		//System.out.println("square length should be " + (this.getHealth()/maxHealth) * 100);
+		//System.out.println("THE HEALTH OF THE TANK IS = " + this.getHealth());
+		//System.out.println("The Max health is " + this.maxHealth);
+		g2d.fillRect((int)this.getX()+130, (int)this.getY() + 50, (int)(this.getHealth()/maxHealth * 100), 20);
+		
 		g2d.setColor(Color.BLACK);
 		
 		
@@ -94,7 +100,7 @@ public class Tank extends GameObject {
 		int adjacentSide = mouseX() - imageCenter.x;
 		int oppositeSide = mouseY() - imageCenter.y;
 		double angle = Math.atan2(oppositeSide,adjacentSide);
-		System.out.println(this.getX() + ", " +this.getY());
+		//System.out.println(this.getX() + ", " +this.getY());
 		//System.out.println("Height equals " + tank.getHeight(null) + "Width equals " + tank.getWidth(null));
 		return  angle;
 	}
